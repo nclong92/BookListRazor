@@ -27,6 +27,9 @@ namespace BookListRazor
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(connectionString));
+
+            services.AddControllersWithViews();
+
             services.AddRazorPages();
         }
 
@@ -53,6 +56,7 @@ namespace BookListRazor
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }
