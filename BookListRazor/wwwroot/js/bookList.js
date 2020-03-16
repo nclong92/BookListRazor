@@ -23,7 +23,8 @@ function loadDataTable() {
                                     Edit
                                 </a>
                                 &nbsp;
-                                <a href="/BookList/Delete?id=${data}" class='btn btn-danger text-white' style='cursor:pointer; width: 100px'>
+                                <a class='btn btn-danger text-white' style='cursor:pointer; width: 100px'
+                                    onclick=Delete('/api/book?id='+${data})>
                                     Delete
                                 </a>
                             </div>    
@@ -36,5 +37,29 @@ function loadDataTable() {
             "emptyTable": "no data found"
         },
         "width": "100%"
+    })
+}
+
+function Delete(url) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover",
+        icon: "warning",
+        dangerMode: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        dataTable.ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+            })
+        }
     })
 }
